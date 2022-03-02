@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val listener = View.OnClickListener {
-        val value1 = binding.edittext1.text.toString().toIntOrNull()
-        val value2 = binding.edittext2.text.toString().toIntOrNull()
+        val value1 = binding.edittext1.text.toString().toDoubleOrNull()
+        val value2 = binding.edittext2.text.toString().toDoubleOrNull()
         if (checkValue(it, value1, value2)) {
             when (it?.id) {
                 binding.buttonPlus.id -> sendIntent(value1, value2, CalcSymbol.PLUS.key)
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendIntent(value1: Int?, value2: Int?, sym: String) {
+    private fun sendIntent(value1: Double?, value2: Double?, sym: String) {
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra(ExtraKey.VALUE1.key, value1)
         intent.putExtra(ExtraKey.VALUE2.key, value2)
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun checkValue(view: View, value1: Int?, value2: Int?): Boolean {
+    private fun checkValue(view: View, value1: Double?, value2: Double?): Boolean {
         var msg = if (value1 == null && value2 == null) {
             "${binding.edittext1.hint}と${binding.edittext2.hint}に数字を入力してください"
         } else if (value1 == null) {

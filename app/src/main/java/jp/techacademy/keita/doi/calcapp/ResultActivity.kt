@@ -1,7 +1,6 @@
 package jp.techacademy.keita.doi.calcapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import jp.techacademy.keita.doi.calcapp.databinding.ActivityResultBinding
 
@@ -11,7 +10,7 @@ enum class ExtraKey(val key: String) {
     SYM("SYM")
 }
 
-enum class CalcSymbol(val key:String) {
+enum class CalcSymbol(val key: String) {
     PLUS("plus"),
     MINUS("minus"),
     TIMES("times"),
@@ -29,15 +28,19 @@ class ResultActivity : AppCompatActivity() {
         binding = ActivityResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val value1 = intent.getIntExtra(ExtraKey.VALUE1.key, 0)
-        val value2 = intent.getIntExtra(ExtraKey.VALUE2.key, 0)
+        val value1 = intent.getDoubleExtra(ExtraKey.VALUE1.key, 0.0)
+        val value2 = intent.getDoubleExtra(ExtraKey.VALUE2.key, 0.0)
         val sym = intent.getStringExtra(ExtraKey.SYM.key)
 
         when (sym) {
             CalcSymbol.PLUS.key -> binding.textview.text = "${value1 + value2}"
             CalcSymbol.MINUS.key -> binding.textview.text = "${value1 - value2}"
             CalcSymbol.TIMES.key -> binding.textview.text = "${value1 * value2}"
-            CalcSymbol.BY.key -> binding.textview.text = if (value2 == 0) "error" else "${value1.toDouble() / value2.toDouble()}"
+            CalcSymbol.BY.key -> {
+                binding.textview.text = value2.takeUnless { it == 0.0 }.let {
+                    if (it == null) "error" else "${value1 / value2}"
+                }
+            }
             else -> binding.textview.text = "${value1}${sym}${value2}"
         }
     }
