@@ -11,6 +11,13 @@ enum class ExtraKey(val key: String) {
     SYM("SYM")
 }
 
+enum class CalcSymbol(val key:String) {
+    PLUS("plus"),
+    MINUS("minus"),
+    TIMES("times"),
+    BY("by")
+}
+
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
@@ -27,10 +34,10 @@ class ResultActivity : AppCompatActivity() {
         val sym = intent.getStringExtra(ExtraKey.SYM.key)
 
         when (sym) {
-            "+" -> binding.textview.text = "${value1 + value2}"
-            "-" -> binding.textview.text = "${value1 - value2}"
-            "*" -> binding.textview.text = "${value1 * value2}"
-            "/" -> binding.textview.text = if (value2 == 0) "error" else "${value1.toDouble() / value2.toDouble()}"
+            CalcSymbol.PLUS.key -> binding.textview.text = "${value1 + value2}"
+            CalcSymbol.MINUS.key -> binding.textview.text = "${value1 - value2}"
+            CalcSymbol.TIMES.key -> binding.textview.text = "${value1 * value2}"
+            CalcSymbol.BY.key -> binding.textview.text = if (value2 == 0) "error" else "${value1.toDouble() / value2.toDouble()}"
             else -> binding.textview.text = "${value1}${sym}${value2}"
         }
     }
